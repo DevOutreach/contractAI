@@ -85,5 +85,5 @@ Party B will indemnify Party A only for damages caused by its negligence.
 
 🌍 Deployment
 
-Deployed on Vercel
-➡️ https://contract-ai.vercel.app
+Deployed on Github Pages
+https://suprakash-dhar-pw.github.io/contract-ai/
