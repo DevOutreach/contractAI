@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LegalEase AI — Clause Comparator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+  <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-3xl">
+    <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">⚖️ LegalEase AI</h1>
+    <p class="text-gray-600 text-center mb-4">
+      Paste two contract clauses below — the AI will analyze differences, risks, and suggest a balanced rewrite.
+    </p>
+
+    <textarea id="clauseInput"
+      class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+      rows="7"
+      placeholder="Clause A: ...&#10;&#10;Clause B: ..."
+    ></textarea>
+
+    <button id="analyzeBtn"
+      class="w-full mt-4 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition">
+      🔍 Analyze Clauses
+    </button>
+
+    <p id="status" class="text-center text-gray-500 mt-4"></p>
+
+    <!-- Output section -->
+    <div id="output" class="hidden mt-6 space-y-6"></div>
+  </div>
+
+  <script>
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const input = document.getElementById("clauseInput");
+    const status = document.getElementById("status");
+    const output = document.getElementById("output");
+
+    analyzeBtn.addEventListener("click", async () => {
+      const text = input.value.trim();
+      if (!text) return alert("Please enter both clauses first!");
+
+      status.textContent = "⏳ Analyzing with LegalEase AI...";
+      output.classList.add("hidden");
+      output.innerHTML = "";
+
+      try {
+        const res = await fetch("http://localhost:5000/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userInput: text }),
+        });
+
+        const data = await res.json();
+        status.textContent = "✅ Analysis complete!";
+        renderResults(data);
+      } catch (err) {
+        console.error(err);
+        status.textContent = "❌ Error analyzing. Check your backend.";
+      }
+    });
+
+    function renderResults(data) {
+      output.classList.remove("hidden");
+
+      const topicCard = `
+        <div class="bg-blue-50 p-5 rounded-xl shadow">
+          <h2 class="text-xl font-semibold text-blue-800 mb-1">Topic</h2>
+          <p class="text-gray-800">${data.topic || "N/A"}</p>
+        </div>`;
+
+      const summaryCard = `
+        <div class="bg-green-50 p-5 rounded-xl shadow">
+          <h2 class="text-xl font-semibold text-green-800 mb-1">Summary</h2>
+          <p class="text-gray-800">${data.summary || "N/A"}</p>
+        </div>`;
+
+      const differencesCard = `
+        <div class="bg-yellow-50 p-5 rounded-xl shadow">
+          <h2 class="text-xl font-semibold text-yellow-800 mb-2">Differences</h2>
+          <ul class="list-disc pl-6 space-y-1 text-gray-700">
+            ${(data.differences || [])
+              .map(diff => `<li>${diff}</li>`)
+              .join("")}
+          </ul>
+        </div>`;
+
+      const riskCard = `
+        <div class="bg-red-50 p-5 rounded-xl shadow">
+          <h2 class="text-xl font-semibold text-red-800 mb-2">Risk Flags</h2>
+          <ul class="list-disc pl-6 space-y-1 text-gray-700">
+            ${(data.risk_flags || [])
+              .map(flag => `<li>${flag}</li>`)
+              .join("")}
+          </ul>
+        </div>`;
+
+      const neutralCard = `
+        <div class="bg-indigo-50 p-5 rounded-xl shadow">
+          <h2 class="text-xl font-semibold text-indigo-800 mb-2">Suggested Neutral Text</h2>
+          <p class="text-gray-800 italic">${data.suggested_neutral_text || "N/A"}</p>
+        </div>`;
+
+      const fakeScoreCard = `
+        <div class="bg-gray-50 p-5 rounded-xl shadow">
+          <h2 class="text-xl font-semibold text-gray-800 mb-2">Fake Contract Analysis</h2>
+          <p><strong>Score:</strong> ${data.fake_contract_score ?? "N/A"} / 100</p>
+          <ul class="list-disc pl-6 mt-2 space-y-1 text-gray-700">
+            ${(data.fake_contract_signals || [])
+              .map(sig => `<li>${sig}</li>`)
+              .join("")}
+          </ul>
+        </div>`;
+
+      output.innerHTML = `
+        ${topicCard}
+        ${summaryCard}
+        ${differencesCard}
+        ${riskCard}
+        ${neutralCard}
+        ${fakeScoreCard}
+      `;
+    }
+  </script>
+</body>
+</html>
