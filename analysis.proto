@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package analysis;
+
+// Request message sent to the Analyze API
+message AnalyzeRequest {
+  string user_input = 1;
+}
+
+// Generic key-value output (since Airia returns dynamic JSON)
+message AnalysisResult {
+  map<string, string> data = 1;
+}
+
+// Response message from the Analyze API
+message AnalyzeResponse {
+  AnalysisResult result = 1;
+}
+
+// Analysis service definition
+service AnalysisService {
+  rpc Analyze(AnalyzeRequest) returns (AnalyzeResponse);
+}
