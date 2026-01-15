@@ -15,7 +15,7 @@ CORS(app)
 
 # ✅ Config
 AIRIA_KEY = os.getenv("AIRIA_KEY")
-AIRIA_URL = "https://api.airia.ai/v2/PipelineExecution/fc5c7a99-3cd3-45bb-8678-1db4f09901c0"
+AIRIA_URL = "https://api.airia.ai/v2/PipelineExecution/b9791679-a12b-4cf4-b1e0-23534346baa6"
 
 # ✅ Analyze route
 @app.route("/analyze", methods=["POST"])
