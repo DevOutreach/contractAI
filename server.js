@@ -14,7 +14,8 @@ app.use(express.json());
 
 // ✅ Config
 const AIRIA_KEY = process.env.AIRIA_KEY;
-const AIRIA_URL = "https://api.airia.ai/v2/PipelineExecution/fc5c7a99-3cd3-45bb-8678-1db4f09901c0";
+const AIRIA_URL =
+  "https://api.airia.ai/v2/PipelineExecution/b9791679-a12b-4cf4-b1e0-23534346baa6";
 
 // ✅ Analyze route
 app.post("/analyze", async (req, res) => {
@@ -46,13 +47,11 @@ app.post("/analyze", async (req, res) => {
     // ✅ Case 2: Older Claude-style format
     else if (data.output?.[0]?.content?.[0]?.text) {
       parsed = JSON.parse(data.output[0].content[0].text);
-    }
-    else {
+    } else {
       throw new Error("Unrecognized Airia API response format");
     }
 
     res.json(parsed);
-
   } catch (err) {
     console.error("❌ Server error:", err);
     res.status(500).json({ error: err.message });
@@ -60,4 +59,6 @@ app.post("/analyze", async (req, res) => {
 });
 
 // ✅ Start backend
-app.listen(5000, () => console.log("✅ Backend running on http://localhost:5000"));
+app.listen(5000, () =>
+  console.log("✅ Backend running on http://localhost:5000")
+);
