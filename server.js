@@ -15,7 +15,7 @@ app.use(express.json());
 // ✅ Config
 const AIRIA_KEY = process.env.AIRIA_KEY;
 const AIRIA_URL =
-  "https://api.airia.ai/v2/PipelineExecution/b9791679-a12b-4cf4-b1e0-23534346baa6";
+  "https://api.airia.ai/v2/PipelineExecution/e5ef2bd1-1b53-47f0-b37b-a4e92250aea1";
 
 // ✅ Analyze route
 app.post("/analyze", async (req, res) => {
@@ -60,5 +60,5 @@ app.post("/analyze", async (req, res) => {
 
 // ✅ Start backend
 app.listen(5000, () =>
-  console.log("✅ Backend running on http://localhost:5000")
+  console.log("✅ Backend running on http://localhost:5000"),
 );
