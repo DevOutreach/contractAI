@@ -1,0 +1,23 @@
+{
+    "blockchain_enabled": false,
+    "blockchain_network_selected": "sepolia",
+    "daemon_endpoint": "0.0.0.0:10000",
+    "daemon_group_name": "default_group",
+    "ipfs_endpoint": "https://ipfs.singularitynet.io:443",
+    "organization_id": "dev_outreach_test",
+    "service_id": "contractai_test",
+    "service_endpoint": "http://localhost:50051",
+    "metering_enabled": false,
+    "metering_endpoint": "https://marketplace-mt-v2.singularitynet.io",
+    "ethereum_json_rpc_http_endpoint": "https://eth-sepolia.g.alchemy.com/v2/kBoq9ApGPX-dNxPWwziLf",
+    "ethereum_json_rpc_ws_endpoint": "wss://eth-sepolia.g.alchemy.com/v2/kBoq9ApGPX-dNxPWwziLf",
+    "payment_channel_storage_type": "file",
+    "payment_channel_storage_client": {
+        "storage_file_path": "./payment_channel_storage.json"
+    },
+    "ssl_cert": "/etc/letsencrypt/live/devtraining1.deep-lab.ai/fullchain.pem",
+    "ssl_key": "/etc/letsencrypt/live/devtraining1.deep-lab.ai/privkey.pem",
+    "log": {
+        "level": "debug"
+    }
+}
